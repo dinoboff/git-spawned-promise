@@ -32,17 +32,17 @@ git.run('init')
   .catch(err => console.log(err.stderr));
 ```
 
-To capture std in an array, define how to split or a map function:
+You can also split stdout (split lines by default):
 ```
 function map(line) {
   return line.includes('fix') ? line : null;
 }
 
-git(['log', '--oneline', 'v1.0.0..v1.0.1'], {split: '\n', map})
+git(['log', '--oneline', 'v1.0.0..v1.0.1'], {sep: '\n', map})
   .then(fixes => console.log(fixes.join('\n')))
 
 // or
-git.array('log', '--oneline', 'v1.0.0..v1.0.1', {split: '\n', map})
+git.array('log', '--oneline', 'v1.0.0..v1.0.1', {sep: '\n', map})
   .then(fixes => console.log(fixes.join('\n')))
 ```
 
