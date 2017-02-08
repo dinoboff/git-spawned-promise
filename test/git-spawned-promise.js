@@ -29,6 +29,12 @@ test('is bound to gitDir', async t => {
   t.is(await git(['rev-parse', '--git-dir']), gitDir);
 });
 
+test('let git find gitDir', async t => {
+  t.is(await gitPromise()(['rev-parse', '--git-dir']), '.git');
+  t.is(await gitPromise({gitDir: undefined})(['rev-parse', '--git-dir']), '.git');
+  t.is(await gitPromise({gitDir: null})(['rev-parse', '--git-dir']), '.git');
+});
+
 test('can ignore stdout', async t => {
   const git = t.context.git;
 
