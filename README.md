@@ -1,6 +1,7 @@
 # git-spawned-promise
 
 [![Build Status][ci-badge]][travis]
+[![Build Status (win)][ci-badge-win]][appveyor]
 [![Coverage][codecov-badge]][codecov]
 [![bitHound Overall Score][bithound-badge]][bithound]
 
@@ -68,6 +69,8 @@ Copyright (c) 2017 Damien Lebrun
 [hub]: https://github.com/github/hub#installation
 [travis]: https://travis-ci.org/dinoboff/git-spawned-promise
 [ci-badge]: https://travis-ci.org/dinoboff/git-spawned-promise.svg?branch=master
+[appveyor]: https://ci.appveyor.com/project/dinoboff/git-spawned-promise/branch/master
+[ci-badge-win]: https://ci.appveyor.com/api/projects/status/sgjrh23qgd1g5bd9/branch/master?svg=true
 [bithound]: https://www.bithound.io/github/dinoboff/git-spawned-promise
 [bithound-badge]: https://www.bithound.io/github/dinoboff/git-spawned-promise/badges/score.svg
 [codecov]: https://codecov.io/gh/dinoboff/git-spawned-promise
