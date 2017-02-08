@@ -6,7 +6,7 @@ Run git command with `child_process.spawn`.
 
 Run a command. `stdout` and `stderr` are captured and used as resolve/reject
 values:
-```
+```js
 const gitPromise = require('git-spawned-promise');
 
 // gitDir is optional - you can let git find the repo in the parent directory.
@@ -23,7 +23,7 @@ git.get('rev-parse', 'HEAD')
 ```
 
 You can ignore stdout by setting `ignore` option to true:
-```
+```js
 git(['init'], , {ignore: true})
   .catch(err => console.log(err.stderr));
 
@@ -33,7 +33,7 @@ git.run('init')
 ```
 
 You can also split stdout (split lines by default):
-```
+```js
 function map(line) {
   return line.includes('fix') ? line : null;
 }
@@ -50,7 +50,7 @@ git.array('log', '--oneline', 'v1.0.0..v1.0.1', {sep: '\n', map})
 
 using npm:
 
-```
+```shell
 npm install git-spawned-promise
 ```
 
