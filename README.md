@@ -1,4 +1,8 @@
-# git-spawned-promise [![Build Status][ci-badge]][travis]
+# git-spawned-promise
+
+[![Build Status][ci-badge]][travis]
+[![Coverage][codecov-badge]][codecov]
+[![bitHound Overall Score][bithound-badge]][bithound]
 
 Run git command with `child_process.spawn`.
 
@@ -64,3 +68,7 @@ Copyright (c) 2017 Damien Lebrun
 [hub]: https://github.com/github/hub#installation
 [travis]: https://travis-ci.org/dinoboff/git-spawned-promise
 [ci-badge]: https://travis-ci.org/dinoboff/git-spawned-promise.svg?branch=master
+[bithound]: https://www.bithound.io/github/dinoboff/git-spawned-promise
+[bithound-badge]: https://www.bithound.io/github/dinoboff/git-spawned-promise/badges/score.svg
+[codecov]: https://codecov.io/gh/dinoboff/git-spawned-promise
+[codecov-badge]: https://codecov.io/gh/dinoboff/git-spawned-promise/branch/master/graph/badge.svg
