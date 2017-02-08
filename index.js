@@ -193,11 +193,12 @@ class GitError extends Error {
    * @param  {string}       stderr  An error message.
    */
   constructor(proc, code, stderr) {
-    const msg = `"${proc.spawnargs.join(' ')}" exited with ${code}:\n\n${stderr}\n`;
+    const msg = `"${proc.spawnargs.join(' ')}", code: ${code}, stderr:\n\n${stderr}\n`;
 
     super(msg);
 
     this.args = proc.spawnargs;
+    this.code = code;
     this.stderr = stderr;
   }
 
