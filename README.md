@@ -46,7 +46,7 @@ git.array('log', '--oneline', 'v1.0.0..v1.0.1', {split: '\n', map})
 using npm:
 
 ```
-npm install -g git-spawned-promise
+npm install git-spawned-promise
 ```
 
 ## License
