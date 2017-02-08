@@ -22,7 +22,11 @@ git(['rev-parse', 'HEAD'], {capture: true})
 
 To capture as an array, define how to split, a map function pr a filter function:
 ```
-git(['log', '--oneline', 'v1.0.0..v1.0.1'], {split: '\n', filter: line => line.includes('fix')})
+function map(line) {
+  return line.includes('fix') ? line : null;
+}
+
+git(['log', '--oneline', 'v1.0.0..v1.0.1'], {split: '\n', map})
   .then(fixes => console.log(fixes.join('\n')))
 ```
 
