@@ -77,7 +77,7 @@ module.exports = function ({gitDir} = {}) {
     return get(...cmd);
   }
 
-  return Object.assign(git, {array, run});
+  return Object.assign(git, {array, get, run});
 };
 
 function assertCmd(cmd) {

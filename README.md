@@ -15,6 +15,11 @@ const git = gitPromise({gitDir: process.env.GIT_DIR});
 git(['rev-parse', 'HEAD'])
   .then(hash => console.log('hash:', hash))
   .catch(err => console.log(err.stderr));
+
+// or
+git.get('rev-parse', 'HEAD')
+  .then(hash => console.log('hash:', hash))
+  .catch(err => console.log(err.stderr));
 ```
 
 You can ignore stdout by setting `ignore` option to true:
