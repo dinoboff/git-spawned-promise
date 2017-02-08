@@ -61,25 +61,24 @@ test('can return an array', async t => {
   const git = t.context.git;
 
   await git.run('commit', '--allow-empty', '--message', 'feat foo');
-  await git.run('tag', 'v0.0.0');
+  await git.run('commit', '--allow-empty', '--message', 'feat bat');
 
-  const cmd = ['tag', '-l', '--format', '%(objectname)%00%(refname:strip=2)'];
-  const tags = await git(cmd, {sep: '\0'});
+  const cmd = ['log', '-z', '--pretty=tformat:%h'];
+  const commits = await git(cmd, {sep: '\0'});
 
-  t.is(tags.filter(item => item).length, 2);
-  t.is(tags[1].trim(), 'v0.0.0');
+  t.is(commits.filter(item => item).length, 2);
 });
 
 test('split line by default', async t => {
   const git = t.context.git;
 
   await git.run('commit', '--allow-empty', '--message', 'feat foo');
-  await git.run('tag', 'v0.0.0');
-  await git.run('tag', 'alpha');
+  await git.run('commit', '--allow-empty', '--message', 'feat bat');
 
-  const tags = await git.array('tag', '--list');
+  const cmd = ['log', '--pretty=tformat:%h'];
+  const commits = await git.array(...cmd);
 
-  t.deepEqual(tags, ['alpha', 'v0.0.0', '']);
+  t.is(commits.filter(item => item).length, 2);
 });
 
 test('can map items', async t => {
