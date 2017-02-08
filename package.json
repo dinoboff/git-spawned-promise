@@ -13,6 +13,7 @@
     "coverage": "nyc --reporter=text --reporter=lcov ava",
     "format": "npm run lint -- --fix",
     "lint": "eslint index.js test/",
+    "report-coverage": "npm run coverage && codecov",
     "test": "ava -vv && npm run lint",
     "test:unit": "ava -vv",
     "test:watch": "ava --watch"
@@ -33,6 +34,7 @@
   "homepage": "https://github.com/dinoboff/git-spawned-promise#readme",
   "devDependencies": {
     "ava": "^0.18.1",
+    "codecov": "^1.0.1",
     "eslint": "^3.15.0",
     "eslint-config-xo": "^0.17.0",
     "eslint-plugin-ava": "^4.0.1",
