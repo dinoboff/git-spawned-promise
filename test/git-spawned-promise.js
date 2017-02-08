@@ -114,7 +114,9 @@ function init() {
   const repo = tempfile();
 
   shell.mkdir('-p', repo);
-  shell.exec(`git init`, {cwd: repo});
+  shell.exec('git init', {cwd: repo});
+  shell.exec('git config user.email "you@example.com"', {cwd: repo});
+  shell.exec('git config user.name "Alice Smith"', {cwd: repo});
 
   return repo;
 }
