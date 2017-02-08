@@ -1,7 +1,7 @@
 /**
  * Git client.
  *
- * @typedef {function(cmd: string[], opts: {capture: boolean, map: Mapper[], sep, string}): Promise<any,Error>} GitClient
+ * @typedef {function(cmd: string[], opts: {ignore: boolean, map: Mapper[], sep, string}): Promise<any,Error>} GitClient
  * @typedef {function(item: object): Promise<any,Error>} Mapper
  */
 
@@ -22,29 +22,31 @@ const through = require('through2');
 module.exports = function ({gitDir} = {}) {
   const gitDirOpts = gitDir == null ? [] : ['--git-dir', gitDir];
 
-  function spawn(args, stdio) {
-    const cmd = [].concat(gitDirOpts, args);
-
-    return ps.spawn('git', cmd, {stdio});
-  }
-
-  function get(...args) {
+  const get = tryFn.bind(null, (...args) => {
     const proc = spawn(args, ['ignore', 'pipe', 'pipe']);
 
     return captureStdout(proc);
-  }
+  });
 
-  function array(...args) {
-    const [options, cmd] = getOptions(...args);
+  const array = tryFn.bind(null, (...args) => {
+    const [cmd, options] = getOptions(...args);
     const proc = spawn(cmd, ['ignore', 'pipe', 'pipe']);
 
     return transformStdout(proc, options);
-  }
+  });
 
-  function run(...args) {
+  const run = tryFn.bind(null, (...args) => {
     const proc = spawn(args, ['ignore', 'ignore', 'pipe']);
 
     return waitFor(proc);
+  });
+
+  function spawn(args, stdio) {
+    assertCmd(args);
+
+    const cmd = [].concat(gitDirOpts, args);
+
+    return ps.spawn('git', cmd, {stdio});
   }
 
   /**
@@ -52,21 +54,20 @@ module.exports = function ({gitDir} = {}) {
    *
    * Resolve if it exit with 0; reject with an error including stderr otherwise.
    *
+   * @param  {string[]}         cmd             Git subcommand to run
+   * @param  {object}           [options]       Options
    * @param  {boolean}          options.ignore  Ignore stdout and resolve with void content when set to true.
    * @param  {Mapper|Mapper[]}  options.map     Transform items
    * @param  {string|RegExp}    options.sep     Token used to split the stdout (to map each part)
-   * @param  {string[]}         cmd             Git subcommand to run
    * @return {Promise<any,Error>}
    */
-  function git(...args) {
-    const [options, cmd] = getOptions(...args);
-
+  function git(cmd = [], options) {
     if (options == null) {
       return get(...cmd);
     }
 
     if (options.sep || options.map) {
-      return array(options, ...cmd);
+      return array(...cmd, options);
     }
 
     if (options.ignore) {
@@ -76,15 +77,27 @@ module.exports = function ({gitDir} = {}) {
     return get(...cmd);
   }
 
-  return Object.assign(git, {get, array, run});
+  return Object.assign(git, {array, run});
 };
 
+function assertCmd(cmd) {
+  if (cmd == null || cmd.length === 0) {
+    throw new Error('no git command!');
+  }
+}
+
 function getOptions(...args) {
-  if (args.length === 0 || typeof args[0] === 'string') {
-    return [null, args];
+  if (args.length === 0) {
+    return [args];
   }
 
-  return [args[0], args.slice(1)];
+  const options = args.slice(-1).pop();
+
+  if (typeof options === 'string') {
+    return [args];
+  }
+
+  return [args.slice(0, -1), options];
 }
 
 /**
@@ -114,7 +127,7 @@ function captureStdout(proc) {
  * @param  {string|RegExp}   options.sep    Token used to split the stdout (to map each part)
  * @return {Promise<object[],Error>}
  */
-function transformStdout(proc, {sep = '\n', map = []}) {
+function transformStdout(proc, {sep = '\n', map = []} = {}) {
   const result = new Promise((resolve, reject) => {
     let stream = proc.stdout.pipe(split(sep));
 
