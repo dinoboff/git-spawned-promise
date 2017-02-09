@@ -1,0 +1,14 @@
+extends:
+  - "../.eslintrc.yml"
+parserOptions: 
+  ecmaFeatures: 
+    jsx: false
+    experimentalObjectRestSpread: false
+  ecmaVersion: 2017
+rules:
+  no-console: "off"
+  node/shebang: "off"
+  node/no-unsupported-features:
+    - error
+    - ignores:
+        - asyncAwait
