@@ -4,6 +4,7 @@
   "description": "Run git command with child_process.spawn",
   "main": "index.js",
   "files": [
+    "example/",
     "test/",
     "README.md",
     "LICENSE.md",
